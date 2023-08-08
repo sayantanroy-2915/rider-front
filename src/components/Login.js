@@ -1,19 +1,15 @@
+import { Button, Form, Input } from 'antd';
 import axios from 'axios';
 import React, { useState } from 'react';
 
 function Login() {
 
-    const [formData, setFormData] = useState({cred:'',password:''});
-
-    const handleChange = (e) => {
-        const {name, value} = e.target;
-        setFormData({...formData, [name]: value});
-    }
+    const [form] = Form.useForm();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post('https://localhost:8080/login', formData);
+            const res = await axios.post('https://localhost:8080/login',);
             const { token } = res.data;
             localStorage.setItem('token', token);
             console.log("Successfully logged in");
@@ -21,13 +17,26 @@ function Login() {
             console.error(error);
         }
     }
+
+    const check = () => {
+        console.log(JSON.stringify(form));
+    }
     
     return <>
-        <div className='p-5 w-1/2 flex flex-col bg-slate-700/60 backdrop-blur-md rounded-xl border-double border-slate-400'>
-            <input type='text' id='cred' placeholder='Enter email or phone' className='m-5 p-5 rounded-xl bg-slate-800/75 text-slate-400'/>
-            <input type='password' id='password' placeholder='Enter password' className='m-5 p-5 rounded-xl bg-slate-800/75 text-slate-400'/>
-            <input type='submit' className='m-5 p-5 rounded-xl bg-slate-800/75 text-sky-400' value='Log in' />
-        </div>
+        <Form form={form} labelCol={{span: 8}} wrapperCol={{span: 16}} style={{maxWidth: 600}} initialValues={{remember: true}} autoComplete='off' >
+            <Form.Item name='cred' label='Phone or Email' rules={[{required: 'true', message: 'Please enter your phone number or email id!'}]}>
+                <Input />
+            </Form.Item>
+            <Form.Item name='password' label='Password' rules={[{required: 'true', message: 'Please enter your password!'}]}>
+                <Input.Password />
+            </Form.Item>
+            <Form.Item wrapperCol={{offset: 8, span: 16}}>
+                <Button type='primary' onClick={check}>For Test</Button>
+            </Form.Item>
+            <Form.Item wrapperCol={{offset: 8, span: 16}}>
+                <Button type='primary' htmlType='submit'>Log In</Button>
+            </Form.Item>
+        </Form>
     </>;
 }
 
