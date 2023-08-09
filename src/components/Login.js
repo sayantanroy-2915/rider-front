@@ -1,25 +1,23 @@
+import React from 'react';
 import { Button, Form, Input } from 'antd';
-import axios from 'axios';
-import React, { useState } from 'react';
 
 function Login() {
 
     const [form] = Form.useForm();
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const res = await axios.post('https://localhost:8080/login',);
-            const { token } = res.data;
-            localStorage.setItem('token', token);
-            console.log("Successfully logged in");
-        } catch (error) {
-            console.error(error);
-        }
+    const handleSubmit = () => {
+        form.validateFields().then((values) => {
+            console.log(values);
+            form.submit();
+        })
+    }
+
+    const handleReset = () => {
+        form.resetFields();
     }
 
     const check = () => {
-        console.log(JSON.stringify(form));
+        alert(JSON.stringify(form));
     }
     
     return <>
@@ -31,10 +29,10 @@ function Login() {
                 <Input.Password />
             </Form.Item>
             <Form.Item wrapperCol={{offset: 8, span: 16}}>
-                <Button type='primary' onClick={check}>For Test</Button>
+                <Button type='primary' onClick={handleSubmit}>Log In</Button>
             </Form.Item>
             <Form.Item wrapperCol={{offset: 8, span: 16}}>
-                <Button type='primary' htmlType='submit'>Log In</Button>
+                <Button type='primary' onClick={handleReset}>Clear All</Button>
             </Form.Item>
         </Form>
     </>;
