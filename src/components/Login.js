@@ -1,5 +1,8 @@
 import React from 'react';
+import axios from 'axios';
 import { Button, Form, Input } from 'antd';
+import { Link } from 'react-router-dom';
+import bcrypt from 'bcrypt';
 
 function Login() {
 
@@ -7,8 +10,14 @@ function Login() {
 
     const handleSubmit = () => {
         form.validateFields().then((values) => {
-            console.log(values);
-            form.submit();
+            values.password = bcrypt.hashSync(values.password,5);
+            axios.post('http://localhost:8080/login',values)
+            .then(res => {
+                console.log(res);
+            })
+            .catch(err => {
+                console.error(err);
+            })
         })
     }
 
@@ -16,10 +25,6 @@ function Login() {
         form.resetFields();
     }
 
-    const check = () => {
-        alert(JSON.stringify(form));
-    }
-    
     return <>
         <Form form={form} labelCol={{span: 8}} wrapperCol={{span: 16}} style={{maxWidth: 600}} initialValues={{remember: true}} autoComplete='off' >
             <Form.Item name='cred' label='Phone or Email' rules={[{required: 'true', message: 'Please enter your phone number or email id!'}]}>
@@ -35,6 +40,7 @@ function Login() {
                 <Button type='primary' onClick={handleReset}>Clear All</Button>
             </Form.Item>
         </Form>
+        <Link to='/signup'>Create new account</Link>
     </>;
 }
 

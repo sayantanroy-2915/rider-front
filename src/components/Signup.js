@@ -1,34 +1,53 @@
+import React from 'react';
 import axios from 'axios';
-import React, { useState } from 'react';
+import { Button, Form, Input } from 'antd';
+import { Link } from 'react-router-dom';
+import bcrypt from 'bcrypt';
 
-function SignUp() {
+function Signup() {
 
-    const [formData, setFormData] = useState({name:'',phone:'',email:'',password:''});
-    
-    const handleChange = (e) => {
-        const {name, value} = e.target;
-        setFormData({...formData, [name]: value});
+    const [form] = Form.useForm();
+
+    const handleSubmit = () => {
+        form.validateFields().then((values) => {
+            values.password = bcrypt.hashSync(values.password,5);
+            axios.post('http://localhost:8080/registration',values)
+            .then(res => {
+                console.log(res);
+            })
+            .catch(err => {
+                console.error(err);
+            })
+        })
     }
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const res = await axios.post('https://localhost:8080/registration', formData);
-            console.log("Successfully signed up");
-        } catch (error) {
-            console.error(error);
-        }
+    const handleReset = () => {
+        form.resetFields();
     }
-    
+
     return <>
-        <div className='p-5 w-1/2 flex flex-col bg-slate-700/60 backdrop-blur-md rounded-xl border-double border-slate-400'>
-            <input type='text' id='name' placeholder='Enter name' className='m-5 p-5 rounded-xl bg-slate-800/75 text-slate-400'/>
-            <input type='tel' id='phone' placeholder='Enter phone number' className='m-5 p-5 rounded-xl bg-slate-800/75 text-slate-400'/>
-            <input type='email' id='email' placeholder='Enter e-mail ID' className='m-5 p-5 rounded-xl bg-slate-800/75 text-slate-400'/>
-            <input type='password' id='password' placeholder='Enter password' className='m-5 p-5 rounded-xl bg-slate-800/75 text-slate-400'/>
-            <input type='submit' className='m-5 p-5 rounded-xl bg-slate-800/75 text-slate-400' value='Register' />
-        </div>
+        <Form form={form} labelCol={{span: 8}} wrapperCol={{span: 16}} style={{maxWidth: 600}} initialValues={{remember: true}} autoComplete='off' >
+            <Form.Item name='name' label='Name' rules={[{required: 'true', message: 'Please enter your name!'}]}>
+                <Input />
+            </Form.Item>
+            <Form.Item name='phone' label='Phone No.' rules={[{required: 'true', message: 'Please enter your mobile number!'}]}>
+                <Input />
+            </Form.Item>
+            <Form.Item name='email' label='E-mail ID' rules={[{}]}>
+                <Input />
+            </Form.Item>
+            <Form.Item name='password' label='Password' rules={[{required: 'true', message: 'Please enter your password!'}]}>
+                <Input.Password />
+            </Form.Item>
+            <Form.Item wrapperCol={{offset: 8, span: 16}}>
+                <Button type='primary' onClick={handleSubmit}>Create account</Button>
+            </Form.Item>
+            <Form.Item wrapperCol={{offset: 8, span: 16}}>
+                <Button type='primary' onClick={handleReset}>Clear All</Button>
+            </Form.Item>
+        </Form>
+        <Link to='/login'>Already have an account? Log in</Link>
     </>;
 }
 
-export default SignUp;
+export default Signup;
