@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { Button, Form, Input } from 'antd';
 import { Link } from 'react-router-dom';
-import bcrypt from 'bcrypt';
+// import bcrypt from 'bcrypt';
 
 function Login() {
 
@@ -10,7 +10,7 @@ function Login() {
 
     const handleSubmit = () => {
         form.validateFields().then((values) => {
-            values.password = bcrypt.hashSync(values.password,5);
+        //    values.password = bcrypt.hashSync(values.password,5);
             axios.post('http://localhost:8080/login',values)
             .then(res => {
                 console.log(res);
