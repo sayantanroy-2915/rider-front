@@ -29,7 +29,7 @@ function Login() {
     }
 
     return <>
-        <div style={{margin: 'auto', width: '60%', marginTop: '50px'}}>
+        <div style={{margin: 'auto', width: '60%', marginTop: '50px'}}> 
         <Form form={form} labelCol={{span: 8}} wrapperCol={{span: 16}} style={{maxWidth: 600}} initialValues={{remember: true}} autoComplete='off' >
             <Form.Item name='cred' label='Phone or Email' rules={[{required: 'true', message: 'Please enter your phone number or email id!'}]}>
                 <Input />
