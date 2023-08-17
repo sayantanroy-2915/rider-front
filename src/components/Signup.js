@@ -11,7 +11,7 @@ function Signup() {
     const handleSubmit = () => {
         form.validateFields().then((values) => {
         //    values.password = bcrypt.hashSync(values.password,5);
-            axios.post('http://localhost:8080/registration',values)
+            axios.post('http://localhost:8080/signup-web',values)
             .then(res => {
                 console.log(res);
             })
@@ -26,6 +26,7 @@ function Signup() {
     }
 
     return <>
+        <div style={{margin: 'auto', width: '60%', marginTop: '50px'}}>
         <Form form={form} labelCol={{span: 8}} wrapperCol={{span: 16}} style={{maxWidth: 600}} initialValues={{remember: true}} autoComplete='off' >
             <Form.Item name='name' label='Name' rules={[{required: 'true', message: 'Please enter your name!'}]}>
                 <Input />
@@ -47,6 +48,7 @@ function Signup() {
             </Form.Item>
         </Form>
         <Link to='/login'>Already have an account? Log in</Link>
+        </div>
     </>;
 }
 
