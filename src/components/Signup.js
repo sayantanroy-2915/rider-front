@@ -1,12 +1,13 @@
 import React from 'react';
 import axios from 'axios';
 import { Button, Form, Input } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 // import bcrypt from 'bcrypt';
 
 function Signup() {
 
     const [form] = Form.useForm();
+    const navigate = useNavigate();
 
     const handleSubmit = () => {
         form.validateFields().then((values) => {
@@ -14,6 +15,7 @@ function Signup() {
             axios.post('http://localhost:8080/auth/register',values)
             .then(res => {
                 console.log(res);
+                navigate("/signupcomplete");
             })
             .catch(err => {
                 console.error(err);
