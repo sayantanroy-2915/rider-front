@@ -11,7 +11,7 @@ function Signup() {
     const handleSubmit = () => {
         form.validateFields().then((values) => {
         //    values.password = bcrypt.hashSync(values.password,5);
-            axios.post('http://localhost:8080/signup-web',values)
+            axios.post('http://localhost:8080/auth/register',values)
             .then(res => {
                 console.log(res);
             })
