@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { Button, Form, Input } from 'antd';
+import { Button, Form, Input, Modal } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 // import bcrypt from 'bcrypt';
 
@@ -9,16 +9,28 @@ function Signup() {
     const [form] = Form.useForm();
     const navigate = useNavigate();
 
+    const warningDialog = (msg) => {
+        Modal.warning({title: "Warning", content: msg});
+    }
+
+    const successDialog = (msg) => {
+        Modal.success({title: "Success", content: msg});
+    }
+    
+
     const handleSubmit = () => {
         form.validateFields().then((values) => {
-        //    values.password = bcrypt.hashSync(values.password,5);
             axios.post('http://localhost:8080/auth/register',values)
             .then(res => {
-                console.log(res);
-                navigate("/signupcomplete");
+                successDialog("Account created. Login to continue.")
+                navigate("/login");
             })
             .catch(err => {
-                console.error(err);
+                const errmsg = err.response.data;
+                if(errmsg.includes('riders_phone_key'))
+                    warningDialog("Phone number exists");
+                else if(errmsg.includes('riders_email_key'))
+                    warningDialog("Email ID exists");
             })
         })
         .catch(err => {

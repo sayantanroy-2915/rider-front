@@ -1,10 +1,23 @@
 import React from 'react';
-import { Table, Button } from 'antd';
+import { Table, Button, Modal } from 'antd';
+import { useNavigate } from 'react-router-dom';
 const { Column, ColumnGroup } = Table;
 
 function Home() {
 
     const data = [];
+    const navigate = useNavigate();
+    
+    const infoDialog = (msg) => {
+        Modal.info({content: msg});
+    }
+
+    const logout = () => {
+        localStorage.removeItem("RiderDetails");
+        localStorage.removeItem("RiderJWT");
+        infoDialog("Logged out...")
+        navigate("/login");
+    }
     
     return <>
     <div style={{margin: 'auto', width: '90%'}}>
@@ -12,7 +25,7 @@ function Home() {
             <div>Welcome {JSON.parse(localStorage.getItem("RiderDetails")).name}</div>
             <div>
                 <Button type='primary' style={{border: '1pt solid black'}}>Account</Button>
-                <Button type='primary' style={{border: '1pt solid black'}}>Logout</Button>
+                <Button type='primary' style={{border: '1pt solid black'}} onClick={logout}>Logout</Button>
             </div>
         </div>
         <Table dataSource={data}>
