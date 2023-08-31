@@ -1,18 +1,40 @@
-import React from "react";
+import React from "react"; 
 import axios from 'axios';
 import { Button, Form, Input, Modal } from 'antd';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function UserDetails() {
     
     const [form] = Form.useForm();
     const navigate = useNavigate();
+    const riderobj = JSON.parse(localStorage.getItem('RiderDetails'));
+    
+    const warningDialog = (msg) => {
+        Modal.warning({title: "Warning", content: msg});
+    }
+
+    const successDialog = (msg) => {
+        Modal.success({title: "Success", content: msg});
+    }
+
+    const errorDialog = (msg) => {
+        Modal.error({title: "Warning", content: msg});
+    }
+
+    const handleUpdate = () => {
+
+    }
 
     return <>
-        <div style={{margin: 'auto', width: '60%', paddingTop: '10%'}}> 
-        <Form form={form} labelCol={{span: 8}} wrapperCol={{span: 16}} style={{maxWidth: 600, fontWeight: 'bold'}} initialValues={{remember: true}} autoComplete='off' >
+        <div style={{margin: 'auto', width: '60%', paddingTop: '5%'}}>
+        <div width='100%' style={{marginBottom: '5%', display:'flex'}}>
+            <Button type='link' style={{color: 'darkblue', fontWeight: 'bold'}} onClick={() => {navigate("/home")}}>&lt; Back</Button>
+        </div>
+        <Form form={form} labelCol={{span: 8}} wrapperCol={{span: 16}} style={{maxWidth: 600, fontWeight: 'bold'}} autoComplete='off'
+            initialValues={{name: riderobj.name, phone: riderobj.phone, email: riderobj.email}}
+        >
             <Form.Item name='name' label='Name' rules={[{required: 'true', message: 'Please enter your name!'}]}>
-                <Input style={{border: '1pt solid black'}} value={localStorage.getItem("RiderDetails")["name"]} />
+                <Input style={{border: '1pt solid black'}} />
             </Form.Item>
             <Form.Item name='phone' label='Phone No.' rules={[{required: 'true', message: 'Please enter your mobile number!'}]}>
                 <Input style={{border: '1pt solid black'}} />
@@ -26,12 +48,14 @@ function UserDetails() {
             <Form.Item name='password' label='New Password' rules={[{required: 'true', message: 'Please enter your new password!'}]}>
                 <Input.Password style={{border: '1pt solid black'}} />
             </Form.Item>
-            <Form.Item wrapperCol={{offset: 8, span: 16}}>
-                <Button type='primary' style={{border: '1pt solid black'}}>Update</Button>
-            </Form.Item>
-            <Form.Item wrapperCol={{offset: 8, span: 16}}>
-                <Button type='primary' style={{border: '1pt solid black'}}>Reset All</Button>
-            </Form.Item>
+            <div style={{display: 'flex', justifyContent: 'end'}}>
+                <Form.Item style={{marginLeft: '2%'}}>
+                    <Button type='primary' style={{border: '1pt solid black'}} onClick={() => {form.resetFields()}}>Reset All</Button>
+                </Form.Item>
+                <Form.Item style={{marginLeft: '2%'}}>
+                    <Button type='primary' style={{border: '1pt solid black'}} onClick={handleUpdate}>Update</Button>
+                </Form.Item>
+            </div>
         </Form>
         </div>
     </>

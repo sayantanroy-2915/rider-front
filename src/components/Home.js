@@ -22,25 +22,20 @@ function Home() {
     return <>
     <div style={{margin: 'auto', width: '90%'}}>
         <div style={{margin: '5%', maxWidth: '100%', display: 'flex', justifyContent: 'space-between', fontWeight:'bold'}}>
-            <div>Welcome {JSON.parse(localStorage.getItem("RiderDetails")).name}</div>
-            <div>
-                <Button type='primary' style={{border: '1pt solid black'}}>Account</Button>
-                <Button type='primary' style={{border: '1pt solid black'}} onClick={logout}>Logout</Button>
+            <div style={{maxWidth:'50%'}}>Welcome {JSON.parse(localStorage.getItem("RiderDetails")).name}</div>
+            <div style={{maxWidth:'50%', display:'flex'}}>
+                <Button type='primary' style={{marginLeft: '10%', border: '1pt solid black'}} onClick={() => {navigate("/userdetails")}}>Account</Button>
+                <Button type='primary' style={{marginLeft: '10%', border: '1pt solid black'}} onClick={logout}>Logout</Button>
             </div>
         </div>
         <Table dataSource={data}>
             <Column title='Order ID' />
-            <Column title='Items' />
             <Column title='Restaurant' />
             <Column title='Customer' />
-            <Column title='Bill amount' />
             <Column title='Order placed' />
-            <ColumnGroup title='Pick up time' >
-                <Column title='Expected' />
-                <Column title='Estimated' />
-            </ColumnGroup>
+            <Column title='Expected Pick up time' />
+            <Column title='Estimated Pick up time' />
             <Column title='Estimated delivery time' />
-            <Column title='Status' />
             <Column title='Actions' />
         </Table>
     </div>
