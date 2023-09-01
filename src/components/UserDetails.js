@@ -18,11 +18,27 @@ function UserDetails() {
     }
 
     const errorDialog = (msg) => {
-        Modal.error({title: "Warning", content: msg});
+        Modal.error({title: "Error", content: msg});
     }
 
     const handleUpdate = () => {
-
+        form.validateFields().then((values) => {
+            const header = {
+                Authorization: `Bearer ${localStorage.getItem('RiderJWT')}`,
+                'Content-type': 'application/json'
+            }
+            const payload = {
+                rider: {id:riderobj.id,name:values.name,phone:values.phone,email:values.email,password:values.password},
+                oldPassword: values.old_password,
+                jwt: localStorage.getItem('RiderJWT')
+            }
+            axios.post('http://localhost:8080/rider/update-all',payload, {headers:header})
+            .then(res => {
+                successDialog(JSON.stringify(res));
+            }).catch(err => {
+                errorDialog(JSON.stringify(err));
+            })
+        }).catch(err => {});
     }
 
     return <>
@@ -42,10 +58,10 @@ function UserDetails() {
             <Form.Item name='email' label='E-mail ID' rules={[{}]}>
                 <Input style={{border: '1pt solid black'}} />
             </Form.Item>
-            <Form.Item name='old_password' label='Old Password' rules={[{required: 'true', message: 'Please enter old your password!'}]}>
+            <Form.Item name='old_password' label='Current Password' rules={[{required: 'true', message: 'Please enter your current password!'}]}>
                 <Input.Password style={{border: '1pt solid black'}} />
             </Form.Item>
-            <Form.Item name='password' label='New Password' rules={[{required: 'true', message: 'Please enter your new password!'}]}>
+            <Form.Item name='password' label='New Password' rules={[{required: 'true', message: 'Please enter new password!'}]}>
                 <Input.Password style={{border: '1pt solid black'}} />
             </Form.Item>
             <div style={{display: 'flex', justifyContent: 'end'}}>

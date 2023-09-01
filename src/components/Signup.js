@@ -16,10 +16,13 @@ function Signup() {
     const successDialog = (msg) => {
         Modal.success({title: "Success", content: msg});
     }
-    
+   
+    const errorDialog = (msg) => {
+        Modal.error({title: "Error", content: msg});
+    } 
 
     const handleSubmit = () => {
-        form.validateFields().then((values) => {
+        form.validateFields().then(values => {
             axios.post('http://localhost:8080/auth/register',values)
             .then(res => {
                 successDialog("Account created. Login to continue.")
@@ -31,11 +34,11 @@ function Signup() {
                     warningDialog("Phone number exists");
                 else if(errmsg.includes('riders_email_key'))
                     warningDialog("Email ID exists");
+                else
+                    errorDialog(errmsg);
             })
         })
-        .catch(err => {
-            console.error(err);
-        })
+        .catch(err => {});
     }
 
     return <>

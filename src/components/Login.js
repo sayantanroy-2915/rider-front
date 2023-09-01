@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { Button, Form, Input } from 'antd';
+import { Button, Form, Input, Modal } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 // import bcrypt from 'bcrypt';
 
@@ -9,8 +9,20 @@ function Login() {
     const [form] = Form.useForm();
     const navigate = useNavigate();
 
+    const warningDialog = (msg) => {
+        Modal.warning({title: "Warning", content: msg});
+    }
+
+    const successDialog = (msg) => {
+        Modal.success({title: "Success", content: msg});
+    }
+   
+    const errorDialog = (msg) => {
+        Modal.error({title: "Error", content: msg});
+    } 
+
     const handleSubmit = () => {
-        form.validateFields().then((values) => {
+        form.validateFields().then(values => {
         //    values.password = bcrypt.hashSync(values.password,5);
             axios.post('http://localhost:8080/auth/login',values)
             .then(res => {
@@ -18,15 +30,12 @@ function Login() {
                 localStorage.setItem("RiderDetails",JSON.stringify(res.data.rider));
                 console.log(res);
                 navigate("/home");
-                
             })
             .catch(err => {
-                console.error(err);
+                errorDialog(err.response.data);
             })
         })
-        .catch(err => {
-            console.error(err);
-        })
+        .catch(err => {});
     }
 
     return <>
