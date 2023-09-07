@@ -23,20 +23,21 @@ function UserDetails() {
 
     const handleUpdate = () => {
         form.validateFields().then((values) => {
-            const header = {
-                Authorization: `Bearer ${localStorage.getItem('RiderJWT')}`,
-                'Content-type': 'application/json'
-            }
+            // const header = {
+            //     Authorization: `Bearer ${localStorage.getItem('RiderJWT')}`,
+            //     'Content-type': 'application/json'
+            // }
             const payload = {
                 rider: {id:riderobj.id,name:values.name,phone:values.phone,email:values.email,password:values.password},
                 oldPassword: values.old_password,
                 jwt: localStorage.getItem('RiderJWT')
             }
-            axios.post('http://localhost:8080/rider/update-all',payload, {headers:header})
+            axios.post('http://localhost:8080/rider/update-all',payload)
             .then(res => {
-                successDialog(JSON.stringify(res));
+                successDialog(JSON.stringify(res.data));
+                localStorage.setItem("RiderDetails",JSON.stringify(res.data));
             }).catch(err => {
-                errorDialog(JSON.stringify(err));
+                errorDialog(JSON.stringify(err.response.data));
             })
         }).catch(err => {});
     }
