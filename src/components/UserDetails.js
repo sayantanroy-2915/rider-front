@@ -2,6 +2,7 @@ import React from "react";
 import axios from 'axios';
 import { Button, Form, Input, Modal } from 'antd';
 import { useNavigate } from 'react-router-dom';
+import { CaretLeftOutlined } from "@ant-design/icons";
 
 function UserDetails() {
     
@@ -23,14 +24,9 @@ function UserDetails() {
 
     const handleUpdate = () => {
         form.validateFields().then((values) => {
-            // const header = {
-            //     Authorization: `Bearer ${localStorage.getItem('RiderJWT')}`,
-            //     'Content-type': 'application/json'
-            // }
             const payload = {
                 rider: {id:riderobj.id,name:values.name,phone:values.phone,email:values.email,password:values.password},
-                oldPassword: values.old_password,
-                jwt: localStorage.getItem('RiderJWT')
+                oldPassword: values.old_password
             }
             axios.post('http://localhost:8080/rider/update-all',payload)
             .then(res => {
@@ -45,7 +41,9 @@ function UserDetails() {
     return <>
         <div style={{margin: 'auto', width: '60%', paddingTop: '5%'}}>
         <div width='100%' style={{marginBottom: '5%', display:'flex'}}>
-            <Button type='link' style={{color: 'darkblue', fontWeight: 'bold'}} onClick={() => {navigate("/home")}}>&lt; Back</Button>
+            <Button type='link' style={{color: 'darkblue', fontWeight: 'bold'}} onClick={() => {navigate("/home")}}>
+                <CaretLeftOutlined /> Back
+            </Button>
         </div>
         <Form form={form} labelCol={{span: 8}} wrapperCol={{span: 16}} style={{maxWidth: 600, fontWeight: 'bold'}} autoComplete='off'
             initialValues={{name: riderobj.name, phone: riderobj.phone, email: riderobj.email}}

@@ -42,10 +42,10 @@ function Login() {
         <div style={{margin: 'auto', width: '60%', paddingTop: '10%'}}> 
         <Form form={form} labelCol={{span: 8}} wrapperCol={{span: 16}} style={{maxWidth: 600, fontWeight: 'bold'}} initialValues={{remember: true}} autoComplete='off' >
             <Form.Item name='username' label='Phone or Email' rules={[{required: 'true', message: 'Please enter your phone number or email id!'}]}>
-                <Input style={{border: '1pt solid black'}} />
+                <Input style={{border: '1pt solid black'}} allowClear />
             </Form.Item>
             <Form.Item name='password' label='Password' rules={[{required: 'true', message: 'Please enter your password!'}]}>
-                <Input.Password style={{border: '1pt solid black'}} />
+                <Input.Password style={{border: '1pt solid black'}} allowClear />
             </Form.Item>
             <div style={{display: 'flex', justifyContent: 'end'}}>
                 <Form.Item style={{marginLeft: '2%'}}>

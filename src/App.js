@@ -4,6 +4,7 @@ import Login from './components/Login';
 import Signup from './components/Signup';
 import Home from './components/Home';
 import UserDetails from './components/UserDetails';
+import ChangePswd from './components/ChangePswd';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/login" element={ <Login /> } />
         <Route path="/signup" element={ <Signup /> } />
         <Route path="/userdetails" element={ <UserDetails/> } />
+        <Route path="/changepswd" element={ <ChangePswd/> } />
       </Routes>
     </div>
   );
