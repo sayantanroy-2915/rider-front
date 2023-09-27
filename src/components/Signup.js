@@ -1,25 +1,15 @@
 import React from 'react';
 import axios from 'axios';
-import { Button, Form, Input, Modal } from 'antd';
+import { Button, Form, Input } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
+import { ClearOutlined, UserAddOutlined } from '@ant-design/icons';
+import { successDialog, warningDialog, errorDialog} from './Modals';
 // import bcrypt from 'bcrypt';
 
 function Signup() {
 
     const [form] = Form.useForm();
     const navigate = useNavigate();
-
-    const warningDialog = (msg) => {
-        Modal.warning({title: "Warning", content: msg});
-    }
-
-    const successDialog = (msg) => {
-        Modal.success({title: "Success", content: msg});
-    }
-   
-    const errorDialog = (msg) => {
-        Modal.error({title: "Error", content: msg});
-    } 
 
     const handleSubmit = () => {
         form.validateFields().then(values => {
@@ -61,6 +51,9 @@ function Signup() {
             <Form.Item name='email' label='E-mail ID' rules={[{type: 'email', message: 'Please enter a valid E-mail ID!'}]} hasFeedback>
                 <Input type='email' style={{border: '1pt solid black'}} allowClear />
             </Form.Item>
+            <Form.Item name='city' label='City' rules={[{required: 'true', message: 'Please enter your city!'}]} hasFeedback>
+                <Input style={{border: '1pt solid black'}} allowClear />
+            </Form.Item>
             <Form.Item name='password' label='Password' rules={[{required: 'true', message: 'Please enter your password!'}]} hasFeedback>
                 <Input.Password style={{border: '1pt solid black'}} allowClear />
             </Form.Item>
@@ -78,10 +71,14 @@ function Signup() {
             </Form.Item>
             <div style={{display: 'flex', justifyContent: 'end'}}>
                 <Form.Item style={{marginLeft: '2%'}}>
-                    <Button type='primary' onClick={() => {form.resetFields()}} style={{border: '1pt solid black'}}>Clear All</Button>
+                    <Button type='primary' onClick={() => {form.resetFields()}} style={{border: '1pt solid black'}}>
+                        <ClearOutlined />Clear All
+                    </Button>
                 </Form.Item>
                 <Form.Item style={{marginLeft: '2%'}}>
-                    <Button type='primary' onClick={handleSubmit} style={{border: '1pt solid black'}}>Create account</Button>
+                    <Button type='primary' onClick={handleSubmit} style={{border: '1pt solid black'}}>
+                        <UserAddOutlined /> Create account
+                    </Button>
                 </Form.Item>
             </div>
         </Form>
